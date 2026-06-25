@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오프더레코드 (Off the Record) - 나만의 페이스 메이커</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons (For clean modern icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Inter & Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=DungGeunMo&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        .font-pixel {
+            font-family: 'DungGeunMo', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        /* Breathing animation */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 20px rgba(129, 140, 248, 0.4); }
+            50% { transform: scale(1.4); opacity: 1; box-shadow: 0 0 40px rgba(129, 140, 248, 0.8); }
+        }
+        .breathing-circle {
+            animation: breathe 8s ease-in-out infinite;
+        }
+        /* Subtle glow for cozy light source */
+        .room-light-glow {
+            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.6));
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-slate-950 p-0 sm:p-4">
+
+<!-- Mobile-first Container Frame (Mockup Style for premium look on all screens) -->
+<div class="relative w-full max-w-md h-[100vh] sm:h-[840px] bg-slate-900 sm:rounded-[40px] shadow-2xl overflow-hidden flex flex-col border border-slate-800">
+    
+    <!-- Phone Bezel Details (Visible on desktop) -->
+    <div class="hidden sm:block absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-slate-950 rounded-full z-50 flex items-center justify-center">
+        <div class="w-3 h-3 bg-slate-800 rounded-full mr-2"></div>
+        <div class="w-12 h-1.5 bg-slate-800 rounded-full"></div>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="flex-1 flex flex-col h-full pt-4 sm:pt-10 pb-4 px-4 overflow-y-auto z-10">
+        
+        <!-- ==================== SCREEN 1: MAIN PAGE (나만의 고요한 독서실) ==================== -->
+        <div id="screen-main" class="flex-1 flex flex-col justify-between py-2 transition-all duration-300">
+            <!-- Top Area: Mind Message -->
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-950/50 px-3 py-1 rounded-full border border-indigo-900/40">Off the Record</span>
+                    <button onclick="openProfileEdit()" class="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-full transition-colors" title="이름 바꾸기">
+                        <i data-lucide="user-cog" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                
+                <h1 id="main-greeting" class="text-xl font-bold leading-relaxed text-slate-100 mt-2">
+                    환영해, <span id="user-display-name" class="text-indigo-300 font-extrabold underline decoration-wavy decoration-indigo-500 underline-offset-4">지우</span>아. <br>
+                    <span class="text-slate-400 font-light text-base">오늘도 타인의 소음은 끄고, 네 페이스대로 걸어가 보자.</span>
+                </h1>
+            </div>
+
+            <!-- Center Area: Cozy Room visualizer -->
+            <div class="my-6 flex flex-col items-center">
+                <!-- Cozy Room SVG Frame -->
+                <div class="relative w-full aspect-[4/3] bg-gradient-to-b from-indigo-950/40 to-slate-900 rounded-2xl p-4 border border-slate-800/80 flex flex-col items-center justify-center overflow-hidden">
+                    
+                    <!-- SVG Cozy study room decoration -->
+                    <svg viewBox="0 0 200 150" class="w-full h-full max-h-[220px]">
+                        <!-- Wall background & floor split -->
+                        <line x1="0" y1="120" x2="200" y2="120" stroke="#1e293b" stroke-width="2" />
+                        
+                        <!-- Window with starry night -->
+                        <rect x="20" y="20" width="45" height="55" rx="4" fill="#020617" stroke="#1e293b" stroke-width="1.5" />
+                        <line x1="42.5" y1="20" x2="42.5" y2="75" stroke="#1e293b" stroke-width="1" />
+                        <line x1="20" y1="47.5" x2="65" y2="47.5" stroke="#1e293b" stroke-width="1" />
+                        <!-- Tiny stars in window -->
+                        <circle cx="28" cy="30" r="0.7" fill="#fef08a" opacity="0.8" />
+                        <circle cx="55" cy="35" r="0.5" fill="#fef08a" opacity="0.5" />
+                        <circle cx="35" cy="60" r="0.6" fill="#fef08a" opacity="0.7" />
+                        <!-- Moon in window -->
+                        <path d="M54 26 A 4 4 0 0 0 58 32 A 4.5 4.5 0 0 1 54 26 Z" fill="#fef08a" opacity="0.9" />
+
+                        <!-- Photo frame on wall -->
+                        <rect x="145" y="25" width="25" height="20" rx="1.5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+                        <!-- "Don't Rush" Korean text pixelized drawing path -->
+                        <text x="148" y="37" font-size="4" fill="#64748b" font-family="'Noto Sans KR'">천천히</text>
+
+                        <!-- Bookshelf on wall -->
+                        <line x1="140" y1="75" x2="180" y2="75" stroke="#334155" stroke-width="2" />
+                        <rect x="145" y="62" width="6" height="13" fill="#312e81" />
+                        <rect x="151" y="65" width="5" height="10" fill="#1e1b4b" transform="rotate(10 151 75)" />
+                        <rect x="165" y="60" width="7" height="15" fill="#1e3a8a" />
+
+                        <!-- Cozy desk & Chair -->
+                        <rect x="75" y="105" width="55" height="15" rx="1" fill="#1e293b" />
+                        <line x1="82" y1="120" x2="82" y2="135" stroke="#1e293b" stroke-width="2" />
+                        <line x1="123" y1="120" x2="123" y2="135" stroke="#1e293b" stroke-width="2" />
+                        
+                        <!-- Cozy green plant -->
+                        <path d="M 15 125 Q 10 115 13 110 Q 18 105 20 115 Z" fill="#064e3b" />
+                        <path d="M 20 125 Q 25 110 23 105 Q 16 102 17 115 Z" fill="#047857" />
+                        <ellipse cx="18" cy="126" rx="6" ry="4" fill="#1e293b" />
+
+                        <!-- Study desk details -->
+                        <!-- Laptop or notebook -->
+                        <polygon points="90,105 115,105 112,98 93,98" fill="#475569" />
+                        <!-- Stack of books -->
+                        <rect x="115" y="99" width="12" height="6" fill="#4f46e5" rx="0.5" />
+                        <rect x="116" y="95" width="10" height="4" fill="#312e81" rx="0.5" />
+
+                        <!-- Sleeping Cat on floor -->
+                        <ellipse cx="150" cy="132" rx="10" ry="6" fill="#f59e0b" opacity="0.9" />
+                        <ellipse cx="157" cy="129" rx="5" ry="4" fill="#f59e0b" opacity="0.9" />
+                        <!-- Cat ears -->
+                        <polygon points="156,126 158,123 159,126" fill="#d97706" />
+                        <!-- Tail -->
+                        <path d="M 141 135 Q 138 132 142 129" stroke="#f59e0b" stroke-width="2" fill="none" />
+
+                        <!-- STUDYING AVATAR (Dot style) -->
+                        <g id="avatar-container" class="transition-transform duration-500">
+                            <!-- Chair backrest -->
+                            <rect x="94" y="112" width="12" height="16" rx="2" fill="#334155" />
+                            <line x1="100" y1="124" x2="100" y2="138" stroke="#334155" stroke-width="3" />
+                            
+                            <!-- Character body (sitting, slightly leaning) -->
+                            <rect x="91" y="100" width="18" height="18" rx="4" fill="#475569" />
+                            <!-- Head (looking slightly down to laptop) -->
+                            <circle cx="100" cy="90" r="7" fill="#fed7aa" />
+                            <!-- Hair (cute standard hair) -->
+                            <path d="M 93 88 Q 100 81 107 88 Q 107 83 100 83 Q 93 83 93 88 Z" fill="#1e1b4b" />
+                            <path d="M 93 88 C 91 93 94 92 94 92" stroke="#1e1b4b" stroke-width="2" fill="none" />
+                            <!-- Headphone -->
+                            <path d="M 93 90 A 7 7 0 0 1 107 90" fill="none" stroke="#e11d48" stroke-width="2" />
+                            <circle cx="93" cy="90" r="2.5" fill="#e11d48" />
+                            <circle cx="107" cy="90" r="2.5" fill="#e11d48" />
+                            <!-- Desk Lamp glow element (changes dynamic brightness) -->
+                            <polygon id="desk-lamp-light" class="room-light-glow" points="75,85 130,105 75,105" fill="#fef08a" opacity="0.3" />
+                            <!-- Desk Lamp hardware -->
+                            <path d="M 78 105 Q 75 90 78 85" stroke="#64748b" stroke-width="2" fill="none" />
+                            <path d="M 75 85 L 81 85" stroke="#f59e0b" stroke-width="3" />
+                        </g>
+                    </svg>
+
+                    <!-- Lamp Brightness Badge Indicator -->
+                    <div class="absolute top-2 right-2 flex items-center bg-slate-900/90 border border-slate-700/50 px-2 py-0.5 rounded-md text-[10px] text-amber-400">
+                        <i data-lucide="sun" class="w-3 h-3 mr-1 animate-pulse"></i>
+                        방 밝기: <span id="lamp-strength-text" class="font-bold ml-1">30%</span>
+                    </div>
+                </div>
+
+                <!-- Today Stats Display Box -->
+                <div class="w-full mt-4 bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-slate-400 font-medium">오늘 누적 공부 시간</p>
+                        <p id="main-today-timer" class="text-2xl font-bold tracking-tight text-white font-pixel mt-1">01:20:45</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-400 font-medium">어제의 나보다</p>
+                        <p class="text-sm font-bold text-emerald-400 flex items-center justify-end mt-1">
+                            <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i>
+                            <span id="main-diff-text">+15분 더 집중 중</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Area: Buttons -->
+            <div class="space-y-3">
+                <!-- Primary Action Button -->
+                <button onclick="startMyPace()" class="w-full py-4 bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 hover:from-indigo-500 hover:to-indigo-500 text-white font-bold rounded-2xl shadow-lg shadow-indigo-950/40 transition-all transform active:scale-[0.98] flex items-center justify-center space-x-2">
+                    <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+                    <span class="text-base tracking-wide">나의 페이스로 시작하기</span>
+                </button>
+
+                <!-- Sub Navigation Action Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="goToMindSanctuary()" class="py-3 px-4 bg-slate-800/60 hover:bg-slate-800 border border-slate-700/40 text-slate-300 hover:text-white rounded-xl transition-all flex items-center justify-center space-x-1.5 text-xs font-semibold">
+                        <i data-lucide="shield-heart" class="w-4 h-4 text-rose-400"></i>
+                        <span>마음 대피소</span>
+                    </button>
+                    <button onclick="goToArchive()" class="py-3 px-4 bg-slate-800/60 hover:bg-slate-800 border border-slate-700/40 text-slate-300 hover:text-white rounded-xl transition-all flex items-center justify-center space-x-1.5 text-xs font-semibold">
+                        <i data-lucide="archive" class="w-4 h-4 text-amber-400"></i>
+                        <span>나의 기록 보관소</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SCREEN 2: TIMER & GHOST RUNNER ==================== -->
+        <div id="screen-timer" class="hidden flex-1 flex flex-col justify-between py-2 transition-all duration-300">
+            <!-- Header Info -->
+            <div>
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2.5 h-2.5 bg-indigo-500 rounded-full animate-ping"></div>
+                        <span class="text-xs font-semibold text-slate-300">오직 나와 마주하는 시간</span>
+                    </div>
+                    <div class="text-right">
+                        <span id="timer-subject-tag" class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">수학 오답 노트</span>
+                    </div>
+                </div>
+
+                <!-- Goal statement -->
+                <div class="mt-4 flex justify-between items-center bg-slate-900/40 p-3 rounded-xl border border-slate-800/50">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="target" class="w-4 h-4 text-indigo-400"></i>
+                        <span class="text-xs text-slate-400">오늘의 몰입 목표</span>
+                    </div>
+                    <span id="timer-goal-display" class="text-xs font-bold text-indigo-300">50분 몰입하기</span>
+                </div>
+            </div>
+
+            <!-- Ghost Runner Graphic Track Area -->
+            <div class="my-6">
+                <div class="bg-slate-950/80 rounded-2xl p-4 border border-slate-800/80">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] text-slate-500 tracking-wider uppercase">비동기 레이스 트랙 (VS 어제의 나)</span>
+                        <span class="text-[10px] text-indigo-400 font-pixel" id="ghost-tip-bubble">나란히 달리는 중!</span>
+                    </div>
+
+                    <!-- Horizontal Track Layout -->
+                    <div class="relative h-28 bg-slate-900/60 rounded-xl overflow-hidden border border-slate-800 flex flex-col justify-around p-2">
+                        <!-- Upper Lane: Today's Me -->
+                        <div class="relative w-full h-10 border-b border-dashed border-slate-800/80 flex items-center">
+                            <!-- Track line guide -->
+                            <div class="absolute left-0 right-0 h-0.5 bg-indigo-950/40"></div>
+                            <!-- Today Indicator/Avatars moving horizontally -->
+                            <div id="runner-today" class="absolute flex flex-col items-center transition-all duration-500" style="left: 45%;">
+                                <div class="bg-indigo-500 text-[9px] font-bold text-white px-1.5 py-0.5 rounded-md mb-0.5 shadow-sm">오늘의 나</div>
+                                <!-- Micro Character Dot SVG -->
+                                <svg class="w-6 h-6" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="8" fill="#6366f1" />
+                                    <!-- Cute face looking forward right -->
+                                    <circle cx="15" cy="11" r="1.5" fill="#ffffff" />
+                                    <circle cx="15" cy="11" r="0.7" fill="#000000" />
+                                    <path d="M 12 16 Q 14 18 16 16" stroke="#ffffff" stroke-width="1" fill="none" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Lower Lane: Ghost Me (Yesterday or Top Record) -->
+                        <div class="relative w-full h-10 flex items-center">
+                            <div class="absolute left-0 right-0 h-0.5 bg-indigo-950/40"></div>
+                            <div id="runner-ghost" class="absolute flex flex-col items-center opacity-60 transition-all duration-500" style="left: 35%;">
+                                <div class="bg-slate-700 text-[9px] font-bold text-slate-200 px-1.5 py-0.5 rounded-md mb-0.5">어제의 나</div>
+                                <!-- Semi-transparent Ghost Character SVG -->
+                                <svg class="w-6 h-6" viewBox="0 0 24 24">
+                                    <!-- Ghost body pattern -->
+                                    <path d="M 6 12 C 6 6, 18 6, 18 12 L 18 20 L 15 17 L 12 20 L 9 17 L 6 20 Z" fill="#94a3b8" />
+                                    <!-- Ghost face -->
+                                    <circle cx="10" cy="11" r="1.2" fill="#000000" />
+                                    <circle cx="14" cy="11" r="1.2" fill="#000000" />
+                                    <path d="M 11 14 Q 12 15 13 14" stroke="#000000" stroke-width="1" fill="none" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- dynamic speech bubble message -->
+                    <div id="runner-dialogue" class="mt-3 bg-indigo-950/40 border border-indigo-900/30 p-2.5 rounded-xl text-center text-xs text-indigo-200">
+                        "어제의 너는 이 시간에 수학 오답 노트를 끝냈어! 오늘 기록을 깨볼까?"
+                    </div>
+                </div>
+
+                <!-- Floating Numeric Timer display -->
+                <div class="mt-6 text-center">
+                    <div id="active-timer-text" class="text-5xl font-bold tracking-widest text-slate-100 font-pixel drop-shadow-[0_4px_12px_rgba(255,255,255,0.05)]">
+                        00:32:14
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">시간은 흘러가는 것이 아니라, 채워지는 것입니다.</p>
+                </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="flex flex-col items-center space-y-3 pb-2">
+                <!-- Large Pause button leading to Breath Room -->
+                <button onclick="pauseAndBreathe()" class="w-full py-4 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 text-slate-200 font-bold rounded-2xl transition-all flex items-center justify-center space-x-2">
+                    <i data-lucide="pause" class="w-5 h-5"></i>
+                    <span>일시 정지 (숨 고르기)</span>
+                </button>
+
+                <!-- Secure exit button positioned discreetly in corner to prevent accidental clicks -->
+                <button onclick="confirmStopStudying()" class="text-xs text-slate-500 hover:text-rose-400 underline transition-colors pt-2">
+                    공부 흐름 매끄럽게 정리하고 종료하기
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== SCREEN 3: COZY BREATHING ROOM (일시 정지 대피소) ==================== -->
+        <div id="screen-breathe" class="hidden flex-1 flex flex-col justify-between py-2 transition-all duration-300">
+            <!-- Comforting Header Message -->
+            <div class="text-center">
+                <div class="mx-auto w-12 h-12 rounded-full bg-indigo-950 flex items-center justify-center mb-3 border border-indigo-900/40">
+                    <i data-lucide="heart-pulse" class="w-6 h-6 text-rose-400"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-100 leading-snug">잠시 멈추어도 괜찮아</h2>
+                <p class="text-xs text-slate-400 mt-2 max-w-[280px] mx-auto leading-relaxed">
+                    뇌가 열심히 일해서 쉬어가라는 신호를 보낸 거야. 죄책감 갖지 말고 딱 5분만 고생한 나에게 숨을 선물하자.
+                </p>
+            </div>
+
+            <!-- Breathing Pulse Animation area -->
+            <div class="my-6 flex flex-col items-center">
+                <!-- Glowing Interactive Circle -->
+                <div class="relative w-48 h-48 flex items-center justify-center">
+                    <!-- Dynamic scaling circle element -->
+                    <div id="breathing-circle-glow" class="absolute w-28 h-28 bg-indigo-500/10 rounded-full breathing-circle flex items-center justify-center"></div>
+                    <div id="breathing-inner-circle" class="relative w-28 h-28 bg-indigo-900/30 border border-indigo-500/40 rounded-full flex flex-col items-center justify-center text-center p-3 transition-transform duration-[4000ms] ease-in-out">
+                        <span id="breathing-prompt" class="text-xs font-bold text-indigo-200">숨을 들이쉬세요</span>
+                        <i data-lucide="wind" class="w-4 h-4 text-indigo-400 mt-1"></i>
+                    </div>
+                </div>
+
+                <!-- 5 Min Countdown Timer -->
+                <div class="mt-4 text-center">
+                    <span id="breathe-counter" class="text-3xl font-bold font-pixel tracking-widest text-slate-300">04:59</span>
+                    <p class="text-[10px] text-slate-500 mt-1">호흡 속도에 맞춰 온전히 집중해 보세요.</p>
+                </div>
+            </div>
+
+            <!-- Soothing Sound Audio Controller -->
+            <div class="bg-slate-950/80 rounded-2xl p-4 border border-slate-800/80">
+                <p class="text-xs text-slate-400 font-medium text-center mb-3 flex items-center justify-center">
+                    <i data-lucide="music" class="w-3.5 h-3.5 mr-1 text-emerald-400"></i>
+                    마음을 가라앉히는 소리 합성기 (무료/오프라인)
+                </p>
+                <div class="grid grid-cols-3 gap-2">
+                    <!-- Rain synth button -->
+                    <button id="btn-synth-rain" onclick="toggleSynth('rain')" class="py-2.5 px-2 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 rounded-xl transition-all flex flex-col items-center space-y-1">
+                        <i data-lucide="cloud-rain" class="w-4 h-4 text-sky-400"></i>
+                        <span class="text-[10px] text-slate-300">초여름 빗소리</span>
+                    </button>
+                    <!-- Campfire synth button -->
+                    <button id="btn-synth-fire" onclick="toggleSynth('fire')" class="py-2.5 px-2 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 rounded-xl transition-all flex flex-col items-center space-y-1">
+                        <i data-lucide="flame" class="w-4 h-4 text-amber-500"></i>
+                        <span class="text-[10px] text-slate-300">타오르는 모닥불</span>
+                    </button>
+                    <!-- Cozy synth pad button -->
+                    <button id="btn-synth-music" onclick="toggleSynth('music')" class="py-2.5 px-2 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 rounded-xl transition-all flex flex-col items-center space-y-1">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-fuchsia-400"></i>
+                        <span class="text-[10px] text-slate-300">치유의 소리</span>
+                    </button>
+                </div>
+                <p class="text-[9px] text-slate-600 text-center mt-2">※ 데이터나 외부 다운로드 없이 브라우저 자체 음원으로 합성 작동합니다.</p>
+            </div>
+
+            <!-- Resume Action -->
+            <div class="mt-4">
+                <button onclick="resumeMyPace()" class="w-full py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-500 text-white font-bold rounded-2xl shadow-lg transition-all transform active:scale-[0.98] flex items-center justify-center space-x-2">
+                    <i data-lucide="zap" class="w-5 h-5 fill-current text-amber-300"></i>
+                    <span>충전 완료, 다시 몰입하기</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== SCREEN 4: MIND SANCTUARY / LETTERS (마음 대피소) ==================== -->
+        <div id="screen-sanctuary" class="hidden flex-1 flex flex-col justify-between py-2 transition-all duration-300">
+            <!-- Header back button & title -->
+            <div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="goBackToMain()" class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <h2 class="text-base font-bold text-slate-200">나만을 위한 마음 대피소</h2>
+                </div>
+
+                <!-- Section switch buttons -->
+                <div class="grid grid-cols-2 gap-2 mt-4 bg-slate-950 p-1 rounded-xl border border-slate-800/80">
+                    <button id="btn-tab-letters" onclick="switchSanctuaryTab('letters')" class="py-2 text-xs font-semibold rounded-lg bg-indigo-900 text-indigo-100 transition-all">응원 타임캡슐</button>
+                    <button id="btn-tab-write" onclick="switchSanctuaryTab('write')" class="py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all">타임캡슐 작성</button>
+                </div>
+            </div>
+
+            <!-- Tab Content 1: My letters shelf list -->
+            <div id="sanctuary-shelf" class="flex-1 my-4 overflow-y-auto space-y-3 pr-1">
+                <p class="text-[11px] text-slate-500">타인의 어설픈 위로보다, 온전했던 어제의 내가 미래의 나에게 전하는 단단한 힘입니다.</p>
+                
+                <div id="letters-list-container" class="space-y-3">
+                    <!-- Dynamic letters injected here -->
+                </div>
+            </div>
+
+            <!-- Tab Content 2: Write a letter to self -->
+            <div id="sanctuary-write-form" class="hidden flex-1 my-4 flex flex-col space-y-3">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400 font-medium">타임캡슐 별명/제목</label>
+                    <input id="letter-title" type="text" placeholder="예: 시험치고 멘탈 나간 미래의 나에게" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <div class="space-y-1 flex-1 flex flex-col">
+                    <label class="text-xs text-slate-400 font-medium">마음을 전하는 레터 내용</label>
+                    <textarea id="letter-content" placeholder="슬럼프가 찾아왔을 때 열어볼 너에게... 지금 네 노력이 헛되지 않다는 걸 꼭 말해주고 싶었어." class="w-full flex-1 bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500 resize-none min-h-[140px]"></textarea>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400 font-medium">열어볼 추천 조건 지정</label>
+                    <select id="letter-condition" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-indigo-500">
+                        <option value="slump">유독 의욕이 떨어지고 힘든 날</option>
+                        <option value="failed">시험이나 수행평가를 망쳐서 속상한 날</option>
+                        <option value="midnight">늦은 새벽, 외롭고 피곤할 때</option>
+                    </select>
+                </div>
+
+                <button onclick="saveTimeCapsule()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center space-x-1">
+                    <i data-lucide="lock" class="w-4 h-4"></i>
+                    <span>든든한 미래의 안도감으로 저장하기</span>
+                </button>
+            </div>
+
+            <!-- Modal for Reading Specific Capsule Letter -->
+            <div id="letter-modal" class="hidden fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4">
+                <div class="bg-gradient-to-b from-slate-900 to-indigo-950/90 w-full max-w-sm rounded-3xl p-6 border border-indigo-500/30 shadow-2xl space-y-4">
+                    <div class="flex items-center space-x-3 text-indigo-400">
+                        <div class="p-2 bg-indigo-950/80 rounded-full border border-indigo-900">
+                            <i data-lucide="mail-open" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] bg-indigo-900/50 text-indigo-300 px-2 py-0.5 rounded-full" id="modal-condition">슬럼프 전용</span>
+                            <p class="text-xs text-slate-500 mt-1" id="modal-date">과거 어느 좋은 날로부터</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-base font-bold text-slate-100 mt-1" id="modal-title">시험 조지고 울고있을 미래의 민지에게</h3>
+                    
+                    <div class="bg-slate-950/60 p-4 rounded-xl max-h-[180px] overflow-y-auto border border-slate-800">
+                        <p class="text-xs text-slate-300 leading-relaxed whitespace-pre-line font-light" id="modal-body">
+                            민지야 안녕! 지금 편지를 쓰는 나는 오늘 수학 오답 50분 클리어하고 엄청 쌩쌩하고 기분 좋아. 
+                            혹시 지금 시험 망쳐서 무기력하게 침대에 누워있니? 기운 내! 이번 시험이 네 인생의 전부가 아니야. 
+                            어제 그렇게 몰입했던 내 안에는 더 멋진 단단함이 있어. 난 여전히 너를 믿어!
+                        </p>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-[11px] text-indigo-400 italic">"세상 그 어떤 위로보다 위대한 것은, 나 자신에 대한 단단한 안도감입니다."</p>
+                    </div>
+
+                    <button onclick="closeLetterModal()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl border border-slate-700/60 transition-all">
+                        위로 받기 완료, 마음을 다잡을게요
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-center text-[10px] text-slate-600">
+                타인과 연결되지 않는 순수한 1인 격리 공간입니다.
+            </div>
+        </div>
+
+        <!-- ==================== SCREEN 5: GROWTH ARCHIVE (기록 보관소) ==================== -->
+        <div id="screen-archive" class="hidden flex-1 flex flex-col justify-between py-2 transition-all duration-300">
+            <!-- Header back & title -->
+            <div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="goBackToMain()" class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <h2 class="text-base font-bold text-slate-200">나의 성장 기록 보관소</h2>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">이곳에는 남들의 화려한 10시간 스터디 인증이 없습니다. 오직 어제의 나와 비교한 내 소중한 발자취만 남습니다.</p>
+            </div>
+
+            <!-- Dynamic Interactive Graph -->
+            <div class="my-4 bg-slate-950/80 rounded-2xl p-4 border border-slate-800/80">
+                <span class="text-[10px] text-slate-400 font-medium">이번 주 나만의 성실성 지수 (요일별 몰입 분수)</span>
+                
+                <div class="relative h-44 mt-3 flex items-end justify-between px-2 pt-4">
+                    <!-- Graph background lines -->
+                    <div class="absolute left-0 right-0 top-1/4 border-b border-dashed border-slate-900"></div>
+                    <div class="absolute left-0 right-0 top-2/4 border-b border-dashed border-slate-900"></div>
+                    <div class="absolute left-0 right-0 top-3/4 border-b border-dashed border-slate-900"></div>
+
+                    <!-- Column Mon -->
+                    <div class="flex flex-col items-center flex-1">
+                        <span class="text-[9px] text-slate-600 mb-1">45m</span>
+                        <div class="w-4 bg-slate-800 rounded-t" style="height: 60px;"></div>
+                        <span class="text-[9px] text-slate-500 mt-1.5">월</span>
+                    </div>
+                    <!-- Column Tue -->
+                    <div class="flex flex-col items-center flex-1">
+                        <span class="text-[9px] text-slate-600 mb-1">50m</span>
+                        <div class="w-4 bg-slate-800 rounded-t" style="height: 66px;"></div>
+                        <span class="text-[9px] text-slate-500 mt-1.5">화</span>
+                    </div>
+                    <!-- Column Wed -->
+                    <div class="flex flex-col items-center flex-1">
+                        <span class="text-[9px] text-slate-600 mb-1">80m</span>
+                        <div class="w-4 bg-slate-800 rounded-t animate-pulse" style="height: 106px;"></div>
+                        <span class="text-[9px] text-slate-500 mt-1.5">수</span>
+                    </div>
+                    <!-- Column Thu (Current Today default) -->
+                    <div class="flex flex-col items-center flex-1">
+                        <span class="text-[9px] text-indigo-400 font-bold mb-1">95m</span>
+                        <div class="w-4 bg-indigo-500 rounded-t shadow-[0_0_10px_rgba(99,102,241,0.5)]" style="height: 126px;"></div>
+                        <span class="text-[9px] text-indigo-400 font-bold mt-1.5">오늘</span>
+                    </div>
+                    <!-- Column Fri (Ghost/Target placeholder) -->
+                    <div class="flex flex-col items-center flex-1">
+                        <span class="text-[9px] text-slate-600 mb-1">60m</span>
+                        <div class="w-4 bg-slate-800/40 rounded-t" style="height: 80px;"></div>
+                        <span class="text-[9px] text-slate-500 mt-1.5">금</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insight comparison box -->
+            <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800/60 space-y-3">
+                <div class="flex items-center space-x-2 text-indigo-300">
+                    <i data-lucide="award" class="w-5 h-5"></i>
+                    <h3 class="text-xs font-bold">오늘의 나 스스로 칭찬하기</h3>
+                </div>
+                <ul class="text-[11px] text-slate-400 space-y-2 leading-relaxed">
+                    <li class="flex items-start">
+                        <span class="text-emerald-400 mr-1.5">•</span>
+                        <span>오늘 집중 시간은 지난주 평균보다 <strong>+18%</strong> 높은 효율을 기록하고 있어요.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-emerald-400 mr-1.5">•</span>
+                        <span>수학 오답노트 과목에 대해 이틀 연속 꾸준히 도전하고 있어 뇌가 기특하게 발달하고 있습니다.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Back to reality button -->
+            <div class="mt-4">
+                <button onclick="goBackToMain()" class="w-full py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold rounded-xl transition-all text-xs">
+                    메인 고요한 독서실로 돌아가기
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PERSISTENT APP DIALOGS (Confirm Exit, Profile Change) -->
+    <!-- Stop Study confirmation dialog -->
+    <div id="stop-confirm-modal" class="hidden absolute inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-6 rounded-[40px]">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-xs rounded-2xl p-5 text-center space-y-4 shadow-xl">
+            <div class="w-12 h-12 bg-rose-950/40 border border-rose-900/60 text-rose-400 rounded-full flex items-center justify-center mx-auto">
+                <i data-lucide="alert-circle" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-sm font-bold text-slate-100">오늘의 페이스를 정리할까요?</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+                지금까지 채워 넣은 소중한 시간은 사라지지 않고 기록 보관소에 안전하게 차곡차곡 보관됩니다.
+            </p>
+            <div class="flex space-x-2 pt-2">
+                <button onclick="hideStopConfirm()" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl">
+                    더 채우기
+                </button>
+                <button onclick="finishStudyingAndSave()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-xl">
+                    정리하고 기록
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Edit popup -->
+    <div id="profile-modal" class="hidden absolute inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-6 rounded-[40px]">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-xs rounded-2xl p-5 space-y-4 shadow-xl">
+            <h3 class="text-sm font-bold text-slate-100 flex items-center">
+                <i data-lucide="edit-3" class="w-4 h-4 mr-2 text-indigo-400"></i>
+                내 이름 변경
+            </h3>
+            <p class="text-xs text-slate-400">앱이 따뜻하게 불러 줄 내 이름을 알려주세요.</p>
+            <input id="input-username" type="text" value="지우" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500">
+            
+            <div class="space-y-1">
+                <label class="text-[11px] text-slate-400 font-medium">지금 내 페이스 메이트 과목</label>
+                <input id="input-subject" type="text" value="수학 오답 노트" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500">
+            </div>
+
+            <div class="flex space-x-2 pt-2">
+                <button onclick="closeProfileEdit()" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl">
+                    취소
+                </button>
+                <button onclick="saveProfile()" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl">
+                    적용하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // State management
+    const state = {
+        userName: '지우',
+        currentSubject: '수학 오답 노트',
+        currentGoal: '50분 몰입하기',
+        todayStudySeconds: 4845, // 01:20:45 in seconds
+        yesterdayStudySeconds: 3945, // 01:05:45 in seconds (+15min difference)
+        
+        timerActive: false,
+        timerInterval: null,
+        
+        breatheInterval: null,
+        breatheSeconds: 300, // 5 minutes
+        breathePhase: 'inhale', // inhale, hold, exhale
+        
+        activeSynth: {
+            rain: false,
+            fire: false,
+            music: false
+        },
+        synthNodes: {
+            rainNode: null,
+            fireNode: null,
+            musicNode: null
+        },
+        audioCtx: null,
+        
+        timeCapsules: [
+            {
+                id: 1,
+                title: "새벽 2시, 졸음에 절어있을 나에게",
+                content: "이 글을 열어봤다면 이미 졸음 번뜩 깨려고 몸부림 중이겠네. 조금만 눈을 붙이거나 찬물을 마셔보자. 넌 남과 비교하지 않아도 이미 최고의 속도로 나아가고 있어. 다 왔어, 지우야!",
+                condition: "midnight",
+                date: "2026-06-21",
+                opened: false
+            },
+            {
+                id: 2,
+                title: "모의고사 국어 조지고 왔을 너에게",
+                content: "속상해서 눈물 흘릴 자격은 충분해. 실컷 기분 털고 툭툭 털어내자. 오늘 한 과목 오답은 내일의 더 강력한 민지(지우)를 만들 뿐이야. 어깨 활짝 펴고 깊게 한 번 웃자!",
+                condition: "failed",
+                date: "2026-06-24",
+                opened: false
+            }
+        ]
+    };
+
+    // On page initialization
+    window.onload = function() {
+        lucide.createIcons();
+        updateMainUI();
+        renderTimeCapsules();
+        startBreathingVisualCycle();
+    };
+
+    // Helper: Format seconds into HH:MM:SS
+    function formatTime(totalSec) {
+        const h = Math.floor(totalSec / 3600);
+        const m = Math.floor((totalSec % 3600) / 60);
+        const s = totalSec % 60;
+        return [h, m, s].map(v => v < 10 ? "0" + v : v).join(":");
+    }
+
+    // Helper: Format seconds into MM:SS (For breathing room)
+    function formatTimeMinutes(totalSec) {
+        const m = Math.floor(totalSec / 60);
+        const s = totalSec % 60;
+        return [m, s].map(v => v < 10 ? "0" + v : v).join(":");
+    }
+
+    // Update MAIN page components dynamically
+    function updateMainUI() {
+        document.getElementById('user-display-name').textContent = state.userName;
+        document.getElementById('main-today-timer').textContent = formatTime(state.todayStudySeconds);
+        
+        // Dynamic Room Brightness glow indicator based on focus level
+        const diffSeconds = state.todayStudySeconds - state.yesterdayStudySeconds;
+        const mainDiffText = document.getElementById('main-diff-text');
+        
+        if (diffSeconds >= 0) {
+            const minDiff = Math.floor(diffSeconds / 60);
+            mainDiffText.textContent = `+${minDiff}분 더 집중 중`;
+            mainDiffText.className = "text-sm font-bold text-emerald-400 flex items-center justify-end mt-1";
+        } else {
+            const minDiff = Math.abs(Math.floor(diffSeconds / 60));
+            mainDiffText.textContent = `어제보다 -${minDiff}분 페이스`;
+            mainDiffText.className = "text-sm font-bold text-slate-400 flex items-center justify-end mt-1";
+        }
+
+        // Adjust SVG room light glow dynamically (Visual cue)
+        // More study = brighter room ambient light
+        const lampStrength = Math.min(100, Math.max(15, Math.floor((state.todayStudySeconds / 7200) * 100)));
+        document.getElementById('lamp-strength-text').textContent = `${lampStrength}%`;
+        const deskLampLight = document.getElementById('desk-lamp-light');
+        if (deskLampLight) {
+            deskLampLight.style.opacity = (lampStrength / 100) * 0.6;
+            deskLampLight.style.filter = `drop-shadow(0 0 ${lampStrength / 3}px rgba(251, 191, 36, 0.7))`;
+        }
+    }
+
+    // NAVIGATION SYSTEM
+    function switchScreen(screenId) {
+        // Hide all screens
+        document.getElementById('screen-main').classList.add('hidden');
+        document.getElementById('screen-timer').classList.add('hidden');
+        document.getElementById('screen-breathe').classList.add('hidden');
+        document.getElementById('screen-sanctuary').classList.add('hidden');
+        document.getElementById('screen-archive').classList.add('hidden');
+
+        // Show targets
+        document.getElementById(screenId).classList.remove('hidden');
+    }
+
+    function goBackToMain() {
+        switchScreen('screen-main');
+        updateMainUI();
+    }
+
+    // Core Screen 1 Actions: Start Pacing
+    function startMyPace() {
+        switchScreen('screen-timer');
+        
+        // Configure subject tags
+        document.getElementById('timer-subject-tag').textContent = state.currentSubject;
+        
+        // Start study timers
+        state.timerActive = true;
+        updateTimerView();
+        
+        state.timerInterval = setInterval(() => {
+            state.todayStudySeconds++;
+            updateTimerView();
+        }, 1000);
+    }
+
+    // Core Screen 1 UI update: Render comparative Runner tracks
+    function updateTimerView() {
+        document.getElementById('active-timer-text').textContent = formatTime(state.todayStudySeconds);
+        
+        // Calculate Ghost runner ratios
+        // Assuming target cycle of 50 minutes (3000s) representing full length of lane progress (100%)
+        const cycleSeconds = 3000;
+        const todayPercent = Math.min(92, Math.floor((state.todayStudySeconds % cycleSeconds) / cycleSeconds * 100));
+        const ghostPercent = Math.min(92, Math.floor((state.yesterdayStudySeconds % cycleSeconds) / cycleSeconds * 100));
+
+        const runnerToday = document.getElementById('runner-today');
+        const runnerGhost = document.getElementById('runner-ghost');
+
+        if (runnerToday) runnerToday.style.left = `${todayPercent}%`;
+        if (runnerGhost) runnerGhost.style.left = `${ghostPercent}%`;
+
+        // Interactive Dialog bubble updates
+        const bubble = document.getElementById('ghost-tip-bubble');
+        const runnerDialogue = document.getElementById('runner-dialogue');
+        const difference = todayPercent - ghostPercent;
+
+        if (Math.abs(difference) < 3) {
+            bubble.textContent = "나란히 달리는 중!";
+            runnerDialogue.textContent = `"${state.userName}아, 어제의 너와 완벽한 호흡으로 달리고 있어. 포기하지 마!"`;
+        } else if (difference > 0) {
+            bubble.textContent = "내가 앞서고 있어요!";
+            runnerDialogue.textContent = `"${state.userName}아, 어제 너는 이 시간대에 집중이 흩어졌었어. 오늘 훨씬 기특한걸?"`;
+        } else {
+            bubble.textContent = "어제의 내가 더 앞서가요";
+            runnerDialogue.textContent = `"아직 늦지 않았어! 묵묵히 내 보폭을 유지하다 보면 어느덧 나를 따라잡을 거야."`;
+        }
+    }
+
+    // Core Screen 2 Controls: Pause, Safety Breathing room popup
+    function pauseAndBreathe() {
+        // Pause study timer
+        clearInterval(state.timerInterval);
+        state.timerActive = false;
+        
+        // Start relaxation breathing system
+        switchScreen('screen-breathe');
+        initiateBreathingTimer();
+    }
+
+    // Core Screen 2 Actions: Cozy breathing room
+    function initiateBreathingTimer() {
+        state.breatheSeconds = 300; // Reset to 5 min
+        document.getElementById('breathe-counter').textContent = "05:00";
+        
+        if (state.breatheInterval) clearInterval(state.breatheInterval);
+
+        state.breatheInterval = setInterval(() => {
+            if (state.breatheSeconds <= 0) {
+                // Return to study automatically or stop
+                clearInterval(state.breatheInterval);
+                resumeMyPace();
+                return;
+            }
+            state.breatheSeconds--;
+            document.getElementById('breathe-counter').textContent = formatTimeMinutes(state.breatheSeconds);
+        }, 1000);
+    }
+
+    // Breathe pulse cycle animation
+    function startBreathingVisualCycle() {
+        const prompt = document.getElementById('breathing-prompt');
+        const innerCircle = document.getElementById('breathing-inner-circle');
+        
+        let cycle = 0;
+        setInterval(() => {
+            if (cycle === 0) {
+                // Inhale (4 seconds)
+                prompt.textContent = "깊게 들이마시기";
+                if (innerCircle) innerCircle.style.transform = "scale(1.3)";
+                cycle = 1;
+            } else if (cycle === 1) {
+                // Hold (2 seconds)
+                prompt.textContent = "잠깐 머금기";
+                cycle = 2;
+            } else {
+                // Exhale (4 seconds)
+                prompt.textContent = "천천히 내쉬기";
+                if (innerCircle) innerCircle.style.transform = "scale(0.9)";
+                cycle = 0;
+            }
+        }, 3000);
+    }
+
+    // Return to study room (Resume)
+    function resumeMyPace() {
+        // Clear breathing timers
+        clearInterval(state.breatheInterval);
+        
+        // Halt ambient synthesis
+        stopAllSynths();
+
+        // Resume study
+        switchScreen('screen-timer');
+        startMyPace();
+    }
+
+    // Safe stop handler
+    function confirmStopStudying() {
+        document.getElementById('stop-confirm-modal').classList.remove('hidden');
+    }
+
+    function hideStopConfirm() {
+        document.getElementById('stop-confirm-modal').classList.add('hidden');
+    }
+
+    function finishStudyingAndSave() {
+        hideStopConfirm();
+        clearInterval(state.timerInterval);
+        state.timerActive = false;
+        
+        // Navigate back to main 독서실
+        goBackToMain();
+    }
+
+    // PROFILE MANAGEMENT
+    function openProfileEdit() {
+        document.getElementById('input-username').value = state.userName;
+        document.getElementById('input-subject').value = state.currentSubject;
+        document.getElementById('profile-modal').classList.remove('hidden');
+    }
+
+    function closeProfileEdit() {
+        document.getElementById('profile-modal').classList.add('hidden');
+    }
+
+    function saveProfile() {
+        const inputName = document.getElementById('input-username').value.trim();
+        const inputSubj = document.getElementById('input-subject').value.trim();
+        if (inputName) state.userName = inputName;
+        if (inputSubj) state.currentSubject = inputSubj;
+        closeProfileEdit();
+        updateMainUI();
+    }
+
+    // Core Screen 3: Timecapsule Sanctuary Tabs
+    function goToMindSanctuary() {
+        switchScreen('screen-sanctuary');
+        switchSanctuaryTab('letters');
+    }
+
+    function switchSanctuaryTab(tabName) {
+        const tabLetters = document.getElementById('btn-tab-letters');
+        const tabWrite = document.getElementById('btn-tab-write');
+        const shelf = document.getElementById('sanctuary-shelf');
+        const form = document.getElementById('sanctuary-write-form');
+
+        if (tabName === 'letters') {
+            tabLetters.className = "py-2 text-xs font-semibold rounded-lg bg-indigo-900 text-indigo-100 transition-all";
+            tabWrite.className = "py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all";
+            shelf.classList.remove('hidden');
+            form.classList.add('hidden');
+            renderTimeCapsules();
+        } else {
+            tabWrite.className = "py-2 text-xs font-semibold rounded-lg bg-indigo-900 text-indigo-100 transition-all";
+            tabLetters.className = "py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all";
+            shelf.classList.add('hidden');
+            form.classList.remove('hidden');
+        }
+    }
+
+    // Render interactive Time Capsule shelf cards
+    function renderTimeCapsules() {
+        const container = document.getElementById('letters-list-container');
+        container.innerHTML = '';
+
+        state.timeCapsules.forEach((capsule) => {
+            const card = document.createElement('div');
+            card.className = "p-4 bg-slate-900/80 hover:bg-slate-900 border border-slate-800 hover:border-indigo-500/30 rounded-2xl transition-all cursor-pointer flex justify-between items-center";
+            card.setAttribute('onclick', `openLetter(${capsule.id})`);
+            
+            let condLabel = "슬럼프인 날";
+            if (capsule.condition === 'failed') condLabel = "성적이 속상한 날";
+            if (capsule.condition === 'midnight') condLabel = "외로운 늦은 새벽";
+
+            card.innerHTML = `
+                <div class="space-y-1.5 flex-1 pr-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-[9px] bg-slate-800 text-indigo-300 border border-indigo-900/30 px-2 py-0.5 rounded-full">${condLabel}</span>
+                        <span class="text-[9px] text-slate-500">${capsule.date} 작성</span>
+                    </div>
+                    <h4 class="text-xs font-bold text-slate-200 line-clamp-1">${capsule.title}</h4>
+                </div>
+                <div class="flex-shrink-0 text-indigo-400">
+                    <i data-lucide="${capsule.opened ? 'mail-open' : 'mail'}" class="w-5 h-5"></i>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+        lucide.createIcons();
+    }
+
+    // Read Time Capsule Letter
+    function openLetter(id) {
+        const capsule = state.timeCapsules.find(c => c.id === id);
+        if (!capsule) return;
+
+        capsule.opened = true;
+
+        let condLabel = "우울하고 힘겨운 날 위해";
+        if (capsule.condition === 'failed') condLabel = "점수에 눈물 나는 날 위해";
+        if (capsule.condition === 'midnight') condLabel = "고독한 깊은 밤을 위해";
+
+        document.getElementById('modal-condition').textContent = condLabel;
+        document.getElementById('modal-date').textContent = `${capsule.date} 작성된 나의 응원`;
+        document.getElementById('modal-title').textContent = capsule.title;
+        document.getElementById('modal-body').textContent = capsule.content;
+
+        document.getElementById('letter-modal').classList.remove('hidden');
+    }
+
+    function closeLetterModal() {
+        document.getElementById('letter-modal').classList.add('hidden');
+        renderTimeCapsules();
+    }
+
+    // Write & Save new Time Capsule
+    function saveTimeCapsule() {
+        const titleInput = document.getElementById('letter-title');
+        const contentInput = document.getElementById('letter-content');
+        const condSelect = document.getElementById('letter-condition');
+
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
+        const condition = condSelect.value;
+
+        if (!title || !content) {
+            alert('글귀를 가만히 채워 넣어 주신 뒤에 보관할 수 있습니다.');
+            return;
+        }
+
+        const date = new Date().toISOString().slice(0, 10);
+        const newCapsule = {
+            id: Date.now(),
+            title: title,
+            content: content,
+            condition: condition,
+            date: date,
+            opened: false
+        };
+
+        state.timeCapsules.unshift(newCapsule);
+        
+        // Clear inputs
+        titleInput.value = '';
+        contentInput.value = '';
+
+        // Switch back to letter shelf with success indication
+        switchSanctuaryTab('letters');
+    }
+
+    // Go to Growth Archive Screen
+    function goToArchive() {
+        switchScreen('screen-archive');
+    }
+
+    // Audio Synthesis Control System (Synthesizes direct brown/white relaxation waves dynamically)
+    function initAudioContext() {
+        if (!state.audioCtx) {
+            state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (state.audioCtx.state === 'suspended') {
+            state.audioCtx.resume();
+        }
+    }
+
+    function toggleSynth(soundType) {
+        initAudioContext();
+        
+        const button = document.getElementById(`btn-synth-${soundType}`);
+        
+        if (state.activeSynth[soundType]) {
+            // STOP SOUND
+            stopSynth(soundType);
+            button.classList.remove('bg-indigo-950/80', 'border-indigo-500/50');
+            button.classList.add('bg-slate-900/60', 'border-slate-800');
+        } else {
+            // PLAY SOUND
+            playSynth(soundType);
+            button.classList.add('bg-indigo-950/80', 'border-indigo-500/50');
+            button.classList.remove('bg-slate-900/60', 'border-slate-800');
+        }
+    }
+
+    function playSynth(type) {
+        state.activeSynth[type] = true;
+        const ctx = state.audioCtx;
+
+        if (type === 'rain') {
+            // Procedural Rain: Bandpass Filtered White Noise Generator
+            const bufferSize = 2 * ctx.sampleRate;
+            const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const noise = ctx.createBufferSource();
+            noise.buffer = noiseBuffer;
+            noise.loop = true;
+
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.value = 800; // soft rain frequency spectrum
+            filter.Q.value = 1.2;
+
+            const gain = ctx.createGain();
+            gain.gain.value = 0.25;
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+            
+            noise.start(0);
+            state.synthNodes.rainNode = { source: noise, gain: gain };
+
+        } else if (type === 'fire') {
+            // Procedural Campfire: Crackling Low Pass White Noise + periodic short transients
+            const bufferSize = 2 * ctx.sampleRate;
+            const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const noise = ctx.createBufferSource();
+            noise.buffer = noiseBuffer;
+            noise.loop = true;
+
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 220; // deep fire rumble
+
+            const gain = ctx.createGain();
+            gain.gain.value = 0.4;
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+            noise.start(0);
+
+            // Periodic crackle transients (Pop sparks)
+            let crackleTimer = setInterval(() => {
+                if (!state.activeSynth.fire) {
+                    clearInterval(crackleTimer);
+                    return;
+                }
+                if (Math.random() > 0.4) {
+                    const osc = ctx.createOscillator();
+                    const popGain = ctx.createGain();
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(20 + Math.random() * 60, ctx.currentTime);
+                    popGain.gain.setValueAtTime(0.06, ctx.currentTime);
+                    popGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+                    
+                    osc.connect(popGain);
+                    popGain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.12);
+                }
+            }, 150);
+
+            state.synthNodes.fireNode = { source: noise, gain: gain, timer: crackleTimer };
+
+        } else if (type === 'music') {
+            // Healing Sounds: Rich polyphonic low-pass triangle chords (Healing Drone)
+            const playChord = () => {
+                if (!state.activeSynth.music) return;
+                
+                // G-major 9th cozy dreamy high schooler chord
+                const freqs = [196.00, 246.94, 293.66, 392.00, 440.00]; 
+                const oscs = [];
+                const chordGain = ctx.createGain();
+                
+                chordGain.gain.setValueAtTime(0, ctx.currentTime);
+                chordGain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 4); // Slow attack
+                chordGain.gain.setValueAtTime(0.08, ctx.currentTime + 8);
+                chordGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 14); // Long release
+
+                freqs.forEach(freq => {
+                    const osc = ctx.createOscillator();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                    
+                    // Add subtle filter LFO
+                    const lfo = ctx.createOscillator();
+                    const lfoGain = ctx.createGain();
+                    lfo.frequency.value = 0.2; // very slow wash
+                    lfoGain.gain.value = 1.5;
+
+                    osc.connect(chordGain);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 15);
+                    oscs.push(osc);
+                });
+
+                chordGain.connect(ctx.destination);
+            };
+
+            // Loop slowly every 14 seconds
+            playChord();
+            const musicTimer = setInterval(playChord, 13000);
+            state.synthNodes.musicNode = { timer: musicTimer };
+        }
+    }
+
+    function stopSynth(type) {
+        state.activeSynth[type] = false;
+        
+        if (type === 'rain' && state.synthNodes.rainNode) {
+            try {
+                state.synthNodes.rainNode.source.stop();
+            } catch(e) {}
+            state.synthNodes.rainNode = null;
+        }
+        if (type === 'fire' && state.synthNodes.fireNode) {
+            try {
+                state.synthNodes.fireNode.source.stop();
+                clearInterval(state.synthNodes.fireNode.timer);
+            } catch(e) {}
+            state.synthNodes.fireNode = null;
+        }
+        if (type === 'music' && state.synthNodes.musicNode) {
+            clearInterval(state.synthNodes.musicNode.timer);
+            state.synthNodes.musicNode = null;
+        }
+    }
+
+    function stopAllSynths() {
+        ['rain', 'fire', 'music'].forEach(type => {
+            if (state.activeSynth[type]) {
+                stopSynth(type);
+                const button = document.getElementById(`btn-synth-${type}`);
+                if (button) {
+                    button.classList.remove('bg-indigo-950/80', 'border-indigo-500/50');
+                    button.classList.add('bg-slate-900/60', 'border-slate-800');
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
